@@ -29,21 +29,21 @@ WIDTH, HEIGHT = 1400, 800
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Chemistry Learner")
 
-# ========== 🎨 颜色方案优化 ==========
+# Color
 WHITE = (255, 255, 255)
-BLACK = (30, 30, 30)  # 深黑色，更柔和
-PRIMARY_BLUE = (30, 144, 255)  # 道奇蓝，主要强调色
-ACCENT_ORANGE = (255, 140, 0)  # 次要强调色
-SUCCESS_GREEN = (46, 204, 113)  # 成功/选中
-ERROR_RED = (231, 76, 60)  # 错误/警告
-HOVER_YELLOW = (255, 230, 109)  # 悬停色
-BACKGROUND_LIGHT = (240, 248, 255)  # 浅背景色 (爱丽丝蓝)
-BACKGROUND_DARK = (210, 220, 230)  # 灰色背景 (用于中心框)
+BLACK = (30, 30, 30)
+PRIMARY_BLUE = (30, 144, 255)
+ACCENT_ORANGE = (255, 140, 0)
+SUCCESS_GREEN = (46, 204, 113)
+ERROR_RED = (231, 76, 60)
+HOVER_YELLOW = (255, 230, 109)
+BACKGROUND_LIGHT = (240, 248, 255)
+BACKGROUND_DARK = (210, 220, 230)
 
-CURSOR_COLOR = ERROR_RED  # 光标颜色
-CURSOR_RADIUS = 12  # 光标半径
+CURSOR_COLOR = ERROR_RED
+CURSOR_RADIUS = 12
 
-# --- 【新增 1】用户要求的化学物质列表 (用于约束 AI 模型的选择范围) ---
+# 化学物质列表
 ALLOWED_SUBSTANCES_LIST = (
     "H₂, O₂, N₂, Cl₂, C, S, P, Fe, Cu, Zn, Al, Mg, Ag, Au, Hg, "
     "H₂O, CO, CO₂, CaO, Fe₂O₃, CuO, MgO, Al₂O₃, MnO₂, SO₂, SO₃, "
@@ -59,15 +59,8 @@ ALLOWED_SUBSTANCES_LIST = (
     "H₂O₂, CH₄, C₂H₅OH, C₆H₁₂O₆, C₁₂H₂₂O₁₁, (C₆H₁₀O₅)ₙ, 蛋白质, 油脂, 石蜡, "
     "KAl(SO₄)₂·12H₂O, SiO₂, NH₃"
 )
-# 移除了用户列表中可能导致 AI 输出格式错误的混合物(CaO+NaOH)和状态描述(固态CO₂)
-# 确保 AI 只输出单一的化学式。
-
-
 def get_font(size):
-    """
-    获取字体，针对思源黑体进行深度优化和优先级调整。
-    """
-    # 1. 优先尝试本地字体文件 (请根据实际文件路径调整)
+    # 1. 优先尝试本地字体文件
     font_files = [
         #"fonts/Noto Sans CJK Regular.otf",
         "fonts/Heiti TC.ttf",  # 常用黑体
@@ -103,19 +96,18 @@ def get_font(size):
     for name in system_font_names:
         try:
             font = pygame.font.SysFont(name, size)
-            # 简单验证宽度，确保字体有效
             if font.render("测", True, BLACK).get_width() > 0:
                 logging.debug(f"已加载系统字体: {name}")
                 return font
         except:
             continue
 
-    # 3. 最后的保底
+    # 没有字体适配：
     logging.warning("未找到支持中文的字体，使用默认Unicode字体")
     return pygame.font.SysFont(pygame.font.get_default_font(), size)
 
 
-# ========== 全局字体定义 ==========
+# 全局字体定义
 font_small = get_font(24)
 font_medium = get_font(32)
 font_large = get_font(48)
